@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
-const BASE_URL = 'api url'
+const BASE_URL = 'https://4ddaf311-075a-43b6-a973-68c4f9683cf7-00-udyo542f7ipz.pike.repl.co'
 
 // action/message fetchPostsByUser
 export const fetchPostsByUser = createAsyncThunk(

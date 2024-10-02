@@ -1,26 +1,17 @@
-import { Button, Col, Image, Nav, Row } from "react-bootstrap";
+import { Button, Col, Image, Nav, Row, Spinner } from "react-bootstrap";
 import ProfilePostCard from "./ProfilePostCard";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPostsByUser } from "../features/posts/postsSlice";
 
 export default function ProfileMidBody() {
-
-  const [posts, setPosts] = useState([])
-  // const posts = [{id: 4, content: 'sigma school is amazing'}]
-
   const url = "https://pbs.twimg.com/profile_banners/83072625/1602845571/1500x500";
   const pic = "https://pbs.twimg.com/profile_images/1587405892437221376/h167Jlb2_400x400.jpg";
 
-  const fetchPosts = (userId) => {
-    console.log(userId)
-    // const fetchPosts = (userId = 6) => {
-    fetch(`https://4ddaf311-075a-43b6-a973-68c4f9683cf7-00-udyo542f7ipz.pike.repl.co/posts/user/${userId}`)
-      // fetch(`api.co/posts/user/6`)
-      .then(response => response.json())
-      .then(data => setPosts(data))
-      // data = [{id: 4, content: 'sigma school is amazing'}]
-      .catch(error => console.error('error:', error))
-  }
+  const dispatch = useDispatch()
+  const posts = useSelector(store => store.posts.posts)
+  const loading = useSelector(store => store.posts.loading)
 
   useEffect(() => {
     const token = localStorage.getItem('authToken')
@@ -31,10 +22,11 @@ export default function ProfileMidBody() {
       const userId = decodedToken.id
       // const username = decodedToken.username
       // const userId = 6
-      fetchPosts(userId)
-      // fetchPosts(6)
+      console.log(userId)
+      dispatch(fetchPostsByUser(userId))
+      // dispatch(fetchPostsByUser(6))
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <Col sm={6} className="bg-light" style={{ border: "1px solid lightgrey" }}>
@@ -91,6 +83,11 @@ export default function ProfileMidBody() {
           <Nav.Link eventKey="link-4">Likes</Nav.Link>
         </Nav.Item>
       </Nav>
+
+      {loading && (
+        <Spinner animation="border" className="ms-3 mt-3" variant="primary" />
+      )}
+
       {/* posts = [{id: 4, content: 'sigma school is amazing'}] */}
       {posts.map(post => (
         // post = {id: 4, content: 'sigma school is amazing'}
