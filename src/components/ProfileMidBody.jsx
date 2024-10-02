@@ -12,6 +12,7 @@ export default function ProfileMidBody() {
   const pic = "https://pbs.twimg.com/profile_images/1587405892437221376/h167Jlb2_400x400.jpg";
 
   const fetchPosts = (userId) => {
+    console.log(userId)
     // const fetchPosts = (userId = 6) => {
     fetch(`https://4ddaf311-075a-43b6-a973-68c4f9683cf7-00-udyo542f7ipz.pike.repl.co/posts/user/${userId}`)
       // fetch(`api.co/posts/user/6`)
@@ -28,6 +29,7 @@ export default function ProfileMidBody() {
       const decodedToken = jwtDecode(token)
       // const decodedToken = {id: 6, username: 'haris@haris.com'}
       const userId = decodedToken.id
+      // const username = decodedToken.username
       // const userId = 6
       fetchPosts(userId)
       // fetchPosts(6)
